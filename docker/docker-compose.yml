@@ -1,0 +1,28 @@
+version: '3.8'
+
+services:
+  flussonic:
+    build: .
+    container_name: flussonic-iptv
+    ports:
+      - "80:80"          # HTTP
+      - "1935:1935"      # RTMP
+      - "25462:25462"    # Xtream Codes
+      - "8000:8000"      # Admin Panel
+    volumes:
+      - ./data:/flussonic/data
+      - ./streams:/flussonic/streams
+      - ./logs:/flussonic/logs
+      - ./config:/flussonic/config
+    environment:
+      - SECRET_KEY=your-secret-key
+      - ADMIN_USER=admin
+      - ADMIN_PASS=admin123
+      - DB_PATH=/flussonic/data/iptv.db
+    restart: unless-stopped
+    networks:
+      - iptv-network
+
+networks:
+  iptv-network:
+    driver: bridge
