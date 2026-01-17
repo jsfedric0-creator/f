@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <title>لوحة تحكم Flussonic IPTV</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            background: #1a202c;
+            color: #e2e8f0;
+        }
+        .sidebar {
+            width: 250px;
+            background: #2d3748;
+            height: 100vh;
+            position: fixed;
+            padding: 20px;
+        }
+        .main {
+            margin-right: 250px;
+            padding: 20px;
+        }
+        .card {
+            background: #2d3748;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 10px;
+        }
+        .btn {
+            background: #4299e1;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div class="sidebar">
+        <h2>🎬 Flussonic IPTV</h2>
+        <ul>
+            <li>📊 لوحة التحكم</li>
+            <li>📺 إدارة البث</li>
+            <li>👥 المستخدمين</li>
+            <li>⚙️ الإعدادات</li>
+            <li>📈 الإحصائيات</li>
+        </ul>
+    </div>
+    
+    <div class="main">
+        <h1>مرحباً بك في لوحة التحكم</h1>
+        
+        <div class="card">
+            <h3>الإحصائيات</h3>
+            <p>البثوث النشطة: <span id="active-streams">0</span></p>
+            <p>المستخدمون النشطون: <span id="active-users">0</span></p>
+        </div>
+        
+        <div class="card">
+            <h3>إضافة بث جديد</h3>
+            <input type="text" placeholder="اسم البث" id="stream-name">
+            <input type="text" placeholder="رابط المصدر" id="stream-source">
+            <button class="btn" onclick="addStream()">إضافة</button>
+        </div>
+    </div>
+    
+    <script>
+        async function loadStats() {
+            const res = await fetch('/api/system/stats');
+            const data = await res.json();
+            document.getElementById('active-streams').textContent = data.streams;
+        }
+        
+        async function addStream() {
+            const name = document.getElementById('stream-name').value;
+            const source = document.getElementById('stream-source').value;
+            
+            await fetch('/api/streams', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({name, source})
+            });
+            
+            alert('تم إضافة البث بنجاح');
+        }
+        
+        loadStats();
+    </script>
+</body>
+</html>
