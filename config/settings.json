@@ -1,0 +1,43 @@
+{
+  "server": {
+    "name": "Flussonic-like IPTV",
+    "version": "1.0.0",
+    "port": 80,
+    "xtream_port": 25462,
+    "admin_port": 8000
+  },
+  "streaming": {
+    "max_bitrate": "10M",
+    "hls_segment_duration": 2,
+    "hls_playlist_length": 30,
+    "dash_segment_duration": 2,
+    "rtmp_enabled": true,
+    "hls_enabled": true,
+    "dash_enabled": true
+  },
+  "security": {
+    "enable_auth": true,
+    "jwt_secret": "your-secret-key",
+    "token_expiry": 86400
+  },
+  "database": {
+    "type": "sqlite",
+    "path": "/flussonic/data/iptv.db"
+  },
+  "default_streams": [
+    {
+      "id": "demo1",
+      "name": "Demo Channel 1",
+      "source": "http://example.com/stream1.m3u8",
+      "type": "live",
+      "category": "General"
+    },
+    {
+      "id": "demo2",
+      "name": "Demo Channel 2",
+      "source": "http://example.com/stream2.m3u8",
+      "type": "live",
+      "category": "Sports"
+    }
+  ]
+}
